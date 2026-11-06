@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OS Exam Practice</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#17243a;--muted:#65748b;--blue:#2855c5;--line:#dce4f0;--green:#16834a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.8}
+header{background:linear-gradient(120deg,#172b58,#3266c8);color:white;padding:28px 18px;text-align:center}
+header h1{margin:0 0 6px;font-size:26px}header p{margin:0;color:#e2eaff}
+.wrap{max-width:1000px;margin:22px auto;padding:0 14px}.notice{background:#fff7df;border:1px solid #f0d58a;border-radius:12px;padding:12px 16px;margin-bottom:16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.tabs button,.action{border:0;border-radius:9px;padding:11px 15px;background:#e3eaf8;color:#1d397a;font-weight:bold;cursor:pointer}.tabs button.active,.action.primary{background:var(--blue);color:white}
+.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #233b6410}
+.qtitle{font-weight:bold;margin-bottom:9px}.qnum{display:inline-block;background:#eaf0ff;color:#234eae;border-radius:7px;padding:1px 9px;margin-left:7px}
+input[type=text],textarea{width:100%;border:1px solid #cbd6e7;border-radius:9px;padding:11px;font:inherit;direction:auto;background:#fff}
+textarea{min-height:85px;resize:vertical}.opt{display:block;padding:7px 10px;margin:5px 0;border:1px solid #e2e8f1;border-radius:8px;cursor:pointer}.opt:hover{background:#f4f7ff}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}.small{color:var(--muted);font-size:13px}.result{padding:13px;background:#eaf7ef;border-radius:10px;margin-top:12px;display:none}.sectionhead{margin-top:25px;border-bottom:2px solid var(--line);padding-bottom:8px}
+</style></head>
+<body>
+<header><h1>Operating Systems — Exam Practice</h1><p>جاوب على الأسئلة واضغط تصحيح الامتحان في النهاية لعرض الدرجة والإجابات الصحيحة.</p></header>
+<div class="wrap">
+<div class="notice"><b>تنبيه بخصوص المصادر:</b> الموقع مبني على أسئلة نهاية Chapter 1 وChapter 3 من ملفات الشابترين، وعلى ملف <b>OS Mid-term.pdf</b> الموجود عندي (40 سؤالًا). تمت إضافة امتحان OS Mid-term 2025-2026 الذي رفعته.</div>
+<div class="tabs">
+<button class="active" onclick="show('c1',this)">Chapter 1</button>
+<button onclick="show('c3',this)">Chapter 3</button>
+<button onclick="show('mid',this)">OS Mid-term PDF</button>
+<button onclick="show('exam26',this)">Midterm 2025-2026</button>
+</div>
+<div id="c1" class="panel active"><h2>Chapter 1 — Computer System Overview</h2><h3 class="sectionhead">Complete — أسئلة آخر الشابتر</h3><div id="c1comp"></div><h3 class="sectionhead">MCQ — أسئلة آخر الشابتر</h3><div id="c1mcq"></div></div>
+<div id="c3" class="panel"><h2>Chapter 3 — Process Description and Control</h2><h3 class="sectionhead">Complete — أسئلة آخر الشابتر</h3><div id="c3comp"></div><h3 class="sectionhead">MCQ — أسئلة آخر الشابتر</h3><div id="c3mcq"></div></div>
+<div id="mid" class="panel"><h2>OS Mid-term.pdf — أسئلة الملف فقط</h2><div id="midmcq"></div></div>
+<div id="exam26" class="panel"><h2>OS Midterm 2025-2026</h2><h3>True / False</h3><div id="tf26"></div><h3>Choose the correct answer</h3><div id="mcq26"></div></div>
+<div class="actions"><button class="action primary" onclick="gradeAll()">تصحيح الامتحان وإظهار الدرجة</button><button class="action" onclick="makeExport()">تجهيز نسخة من إجاباتي</button><button class="action" onclick="window.print()">طباعة</button><button class="action" onclick="clearAll()">مسح الإجابات</button></div>
+<div id="result" class="result"><b>نتيجة التصحيح</b><div id="score"></div><div id="feedback"></div><p>انسخ النص التالي وابعتُه في الشات، وأنا أصحح إجابات الـ Complete والنظري، وأراجع اختياراتك وأطلعلك الدرجة والأخطاء.</p><textarea id="export" rows="12" readonly></textarea><button class="action primary" onclick="copyExport()">نسخ الإجابات</button></div>
+<p class="small">إجاباتك محفوظة تلقائيًا على نفس الجهاز والمتصفح.</p>
+</div>
+<script>
+const complete1=[
+["The invention of the ______ was the hardware revolution that brought about desktop and handheld computing.",["microprocessor"]],
+["To satisfy the requirements of handheld devices, the classic microprocessor is giving way to the ______.",["system on a chip","soc"]],
+["The processing required for a single instruction is called a(n) ______ cycle.",["instruction"]],
+["The fetched instruction is loaded into the ______.",["instruction register","ir"]],
+["When an external device is ready to accept more data from the processor, the I/O module sends an ______ signal.",["interrupt"]],
+["The ______ stages movement of data between main memory and processor registers to improve performance.",["cache","cache memory"]],
+["External, nonvolatile memory is also referred to as ______ or auxiliary memory.",["secondary memory"]],
+["When a new block of data is read into the cache, the ______ determines which cache location the block will occupy.",["mapping function"]],
+["In a ______ multiprocessor, all processors can perform the same functions.",["symmetric","symmetric multiprocessor","smp"]],
+["A ______ computer combines two or more processors on a single piece of silicon.",["multicore","multicore computer"]],
+["A Control/Status register that contains the address of the next instruction to be fetched is called the ______.",["program counter","pc"]],
+["Each location in Main Memory contains a ______ value that can be interpreted as either an instruction or data.",["binary"]],
+["A special type of address register required by a system that implements user visible stack addressing is called a ______.",["stack pointer","sp"]],
+["Registers used by system programs to minimize main memory references are called ______.",["general purpose registers","general-purpose registers","general purpose","general-purpose"]],
+["The concept of multiple programs taking turns in execution is known as ______.",["multiprogramming"]]
+];
+const mcq1=[
+["The ______ contains the data to be written into memory and receives the data read from memory.",["I/O address register","Memory address register","I/O buffer register","Memory buffer register"],3],
+["Instruction processing consists of two steps:",["Fetch and execute","Instruction and execute","Instruction and halt","Fetch and instruction"],0],
+["The ______ routine determines the nature of the interrupt and performs whatever actions are needed.",["Interrupt handler","Instruction signal","Program handler","Interrupt signal"],0],
+["______ is more efficient than interrupt-driven or programmed I/O for a multiple-word I/O transfer.",["Spatial locality","Direct memory access","Stack access","Temporal locality"],1]
+];
+const complete3=[
+["A process is in the ______ state when it is in secondary memory and awaiting an event.",["blocked/suspend","blocked suspend","blocked-suspend"]],
+["Two essential elements of a process are ______ and a set of data associated with that code.",["program code"]],
+["The ______ tables provide information about the existence of files, their location on secondary memory, status, and attributes.",["file"]],
+["The ______ contains sufficient information to interrupt a running process and later resume execution.",["process control block","pcb"]],
+["When the OS creates a process at the explicit request of another process, the action is referred to as ______.",["process spawning","spawning"]],
+["The process is said to be operating in a ______ fashion if each process gets a certain amount of time in turn.",["round robin","round-robin"]],
+["A process in the ______ state is in main memory and available for execution.",["ready"]],
+["______ tables are used to keep track of both main (real) and secondary (virtual) memory.",["memory"]],
+["PCB information categories include process identification, ______, and process control information.",["processor state information"]],
+["A ______ is the maximum amount of time that a process can execute before being interrupted.",["time slice","time quantum","quantum"]],
+["The principal function of the OS is to create, manage, and ______ processes.",["schedule"]],
+["The portion of the operating system that selects the next process to run is called the ______.",["dispatcher"]],
+["The collection of program, data, stack, and attributes is referred to as the process ______.",["image"]],
+["A process is in the ______ state when it is in main memory and awaiting an event.",["blocked"]],
+["The sequence of instructions executed for an individual process is referred to as a ______.",["trace"]],
+["An error or exception condition generated within the currently running process is an ______.",["exception"]]
+];
+const mcq3=[
+["Which of the following is NOT an essential element of a process?",["Program code","CPU registers","Stack","Hard disk"],3],
+["In a five-state process model, a process in the Blocked state is:",["Ready for execution","Waiting for an event to occur","Being executed","Terminated"],1],
+["What is the main role of the Process Control Block (PCB)?",["Stores process attributes and manages execution","Controls file system operations","Schedules the CPU only","Handles memory management only"],0],
+["A process in the Suspended state:",["Cannot be resumed","Is waiting in the ready queue","Has been moved to secondary storage","Is executing in kernel mode"],2],
+["Which of the following is NOT a reason for process termination?",["Normal completion","Timeout","Process enters an infinite loop","Memory limit exceeded"],2],
+["A process placed in suspended state to prevent execution is a ______ process.",["Blocked","Suspended","Ready","Swapped"],1],
+["It is the principal responsibility of the ______ to control the execution of processes.",["OS","Process control block","Memory","Dispatcher"],0],
+["When one process spawns another, the spawned process is referred to as the ______.",["Trap process","Child process","Stack process","Parent process"],1],
+["A process in main memory and awaiting an event is in the ______ state.",["Blocked","Blocked/Suspend","Ready/Suspend","Ready"],0],
+["The portion of the OS that selects the next process to run is called the ______.",["Trace","Process control block","Dispatcher","PSW"],2]
+];
+const mid=[
+["Which one of the following is not shared by threads?",["Both program counter and the stack","Program counter","Memory","Stack"],0],
+["The child process completes execution, but the parent keeps executing, then the child process is known as ______.",["Dead","Active","Orphan","Zombie"],2],
+["If the kernel is single threaded, a user-level thread performing a blocking system call will ______.",["Cause the entire process to run along with the other threads","Cause the thread to block with the other threads running","Cause the entire process to block even if the other threads are available to run","All the mentioned"],2],
+["What does concurrency mean?",["Support more than one task making progress but not running simultaneously","Support more than one task making progress and running simultaneously","Do not support more than one task making progress but running simultaneously","Do not support more than one task making progress but not running simultaneously"],0],
+["The ______ state is where the process is being created.",["Running","New","Ready","Waiting"],1],
+["______ is a programming interface to the services provided by the OS.",["System calls","Process control block","Dispatcher","Kernel"],0],
+["The ______ state is where the process is waiting to be assigned to the CPU.",["Ready","New","Waiting","Running"],0],
+["A process can be ______.",["Single thread","Single thread and multiple thread","Virtual","Multiple thread"],1],
+["Which scheduling algorithm allocates the CPU first to the process that requests it first?",["SJF","Priority","FCFS","SRTF"],2],
+["A parent process calling ______ system call will be suspended until child processes terminate.",["fork","wait","exit","exec"],1],
+["The Waiting time for all processes using Round Robin = 3 are ______.",["9, 1, 2, 3, 9","9, 10, 11, 13, 14","9, 1, 5, 3, 9","9, 3, 4, 6, 10"],null],
+["Consider the code in the original exam: how many Hello will be printed?",["8","4","9","6"],null],
+["What is the disadvantage of priority scheduler?",["Low utilization","Starvation","Long queue","Convoy effect"],1],
+["When a process creates a new process using fork(), which state is shared between parent and child?",["Stack","Memory","Registers","None of the mentioned"],3],
+["Which preemptive scheduler selects a job with the least amount of work from the ready queue?",["SRTF","Priority","FCFS","SJF"],0],
+["______ selects which process should be executed next and allocates the CPU.",["Long-term scheduler","Dispatcher","Medium-term scheduler","Short-term scheduler"],3],
+["The ______ selects which processes should be brought into the ready queue.",["Dispatcher","Short-term scheduler","Context switch","Long-term scheduler"],3],
+["What is dispatch latency?",["The whole time taken by all processes","The process scheduling time","The time taken by the CPU to write a process into disk","The time taken by the dispatcher to stop one process and start another"],3],
+["Which system call is used to create a new process?",["exec","wait","exit","fork"],3],
+["What is interprocess communication?",["Communication between two processes","Communication within the process","Communication between a thread and a process","Communication between two threads of same process"],0],
+["The computing resources allocated by the operating system are ______.",["CPU","Memory","I/O devices","All the mentioned"],3],
+["The ______ scheduling algorithm allows running processes to be temporarily suspended.",["Shortest job first","Preemptive","Non-Preemptive","First come first service"],1],
+["To access OS services, the interface is provided by the ______.",["Library","All the mentioned","System calls","API"],null],
+["The number of processes completing in a unit of time is ______.",["Throughput","Turnaround time","Waiting time","Utilization"],0],
+["The ______ gives control of the CPU to the process selected by the short-term scheduler.",["System calls","Dispatcher","Kernel","Process control block"],1],
+["If one thread opens a file with read privileges, then ______.",["Any other thread cannot read from that file","No running thread in the same process can read","Other threads in another process can also read from that file","Other threads in the same process can also read from that file"],3],
+["The time required to create a new thread in an existing process is ______.",["Cannot compare to process creation","Less than the time required to create a new process","Equal to the time required to create a new process","Greater than the time required to create a new process"],1],
+["Which scheduler has high average waiting time as short jobs may wait behind long jobs?",["FCFS","Priority","RR","SJF"],0],
+["Which scheduler moves the running process to the ready queue after a certain time slice?",["SJF","FCFS","RR","Priority"],2],
+["The Turnaround time for all processes using Round Robin = 3 are ______.",["10, 11, 3, 14, 19","19, 4, 6, 7, 15","19, 1, 4, 2, 9","19, 2, 7, 4, 14"],null],
+["When CPU switches to another process, saving old state and loading new state is called ______.",["Context switch","Process control block","Fork","Process scheduling"],0],
+["What is the process control block?",["Data structure for saving the process memory","Process variables","Data structure for saving the process state","Process secondary storage section"],2],
+["What is the type of the SRTF scheduler?",["Non-preemptive","Kernel","Priority","Preemptive"],3],
+["A single thread of control allows the process to perform ______.",["Only two processes at a time","Only two tasks at a time","Only one task at a time","Multiple tasks at a time"],2],
+["In UNIX, the return value for fork() is ______ for the child and ______ for the parent.",["Zero, a nonzero integer","A nonzero integer, zero","Zero, a negative integer","A negative integer, zero"],0],
+["Which scheduler selects a job with the highest given importance from the ready queue?",["SJF","Priority","SRTF","FCFS"],1],
+["Which non-preemptive scheduler selects a job with the least amount of work from the ready queue?",["SRTF","Priority","SJF","FCFS"],2],
+["The ______ state is where the process is being executed.",["New","Running","Waiting","Ready"],1],
+["The ______ state is where the process is waiting for some event to occur (such as an I/O).",["New","Ready","Waiting","Running"],2],
+["The percentage of time in which the CPU is busy is called ______.",["Utilization","Turnaround time","Throughput","Waiting time"],0]
+];
+
+const tf26=[
+["The OS masks hardware details from the programmer and provides a convenient interface.",true],
+["A system bus transfers data between the computer and its external environment.",false],
+["With interrupts, the processor cannot execute other instructions while I/O is in progress.",false],
+["The fetched instruction is loaded into the Program Counter.",false],
+["The ABI gives a program access to hardware resources and services through the user ISA.",false],
+["A process consists of executable program, associated data, and execution context.",true],
+["Control passed to a job means the processor is fetching and executing instructions from the monitor program.",false],
+["The central idea behind simple batch processing is the use of software known as monitor.",true],
+["The PCB enables the OS to support multiple processes and multiprogramming.",true],
+["Cache memory is invisible to the OS.",true]
+];
+const mcq26=[
+["When a computer boots and starts a user application after an interrupt, which operating modes are involved?",["System mode → User mode","User mode → System mode","Supervisor mode → Kernel mode","User mode → Privileged mode"],1],
+["The sequence of instructions that executes for an individual process is called:",["State","Trace","Process block","Priority"],1],
+["When one process spawns another, the spawned process is the:",["Trap process","Stack process","Child process","Parent process"],2],
+["Which system shows higher CPU utilization when jobs involve I/O and CPU time?",["Uniprogramming","Multiprogramming","Single-user","Real-time"],1],
+["Managing resources fairly for multiple students is an example of:",["User authentication","Exclusive access","Encryption","Resource allocation"],3],
+["What should the OS do when an unexpected error causes an exception?",["Ignore the error","Execute a system trap to handle the exception","Terminate without saving data","Move process to waiting"],1],
+["The special programming language used to provide instructions to the monitor is:",["JCL","FPL","DML","SML"],0],
+["With limited resources, what can OS do for an incoming process?",["Suspend an existing process and allocate resources to the new process","Terminate all others","Bypass the queue","Run all simultaneously"],0],
+["During a context switch, a process PCB is updated. What is its new state?",["Blocked","Running","Ready","Terminated"],null],
+["The OS portion that selects the next process to run is:",["Trace","Process block","Dispatcher","PSW"],2],
+["A process brought back to memory for execution makes which transition?",["Ready/Suspend → Ready","Blocked → Running","Running → Blocked","New → Terminated"],0]
+];
+function renderTF26(){document.getElementById('tf26').innerHTML=tf26.map((q,i)=>`<div class="card"><b>${i+1}. ${q[0]}</b><label class="opt"><input type="radio" name="tf26_${i}" value="true" onchange="save('tf26_${i}')"> True</label><label class="opt"><input type="radio" name="tf26_${i}" value="false" onchange="save('tf26_${i}')"> False</label></div>`).join('')}
+function renderMCQ26(){document.getElementById('mcq26').innerHTML=mcq26.map((q,i)=>`<div class="card"><b>${i+11}. ${q[0]}</b>${q[1].map((o,j)=>`<label class="opt"><input type="radio" name="q26_${i}" value="${j}" onchange="save('q26_${i}')"> ${String.fromCharCode(65+j)}) ${o}</label>`).join('')}</div>`).join('')}
+renderTF26();renderMCQ26();
+
+function show(id,b){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
+function renderComp(id,arr,key){document.getElementById(id).innerHTML=arr.map((q,i)=>`<div class="card"><div class="qtitle"><span class="qnum">${i+1}</span>${q[0]}</div><input type="text" id="${key}${i}" placeholder="اكتب إجابتك هنا" oninput="save('${key}${i}')"></div>`).join('')}
+function renderMcq(id,arr,key){document.getElementById(id).innerHTML=arr.map((q,i)=>`<div class="card"><div class="qtitle"><span class="qnum">${i+1}</span>${q[0]}</div>${q[1].map((o,j)=>`<label class="opt"><input type="radio" name="${key}${i}" value="${j}" onchange="save('${key}${i}')"> ${String.fromCharCode(65+j)}) ${o}</label>`).join('')}</div>`).join('')}
+renderComp('c1comp',complete1,'a1_');renderMcq('c1mcq',mcq1,'b1_');renderComp('c3comp',complete3,'a3_');renderMcq('c3mcq',mcq3,'b3_');renderMcq('midmcq',mid,'m_');
+function save(id){let el=document.getElementById(id);if(el&&el.type==='text')localStorage.setItem(id,el.value);else{let x=document.querySelector(`input[name="${id}"]:checked`);if(x)localStorage.setItem(id,x.value)}}
+function restore(){document.querySelectorAll('input[type=text]').forEach(x=>{if(localStorage.getItem(x.id)!==null)x.value=localStorage.getItem(x.id)});document.querySelectorAll('input[type=radio]').forEach(x=>{if(localStorage.getItem(x.name)===x.value)x.checked=true})}
+restore();
+function makeExport(){let out=[];function addComp(arr,k,title){out.push('\\n'+title);arr.forEach((q,i)=>out.push((i+1)+'. '+q[0]+'\\nإجابتي: '+(localStorage.getItem(k+i)||'[لم أجب]')))}
+function addMcq(arr,k,title){out.push('\\n'+title);arr.forEach((q,i)=>{let v=localStorage.getItem(k+i);out.push((i+1)+'. '+q[0]+'\\nإجابتي: '+(v===null?'[لم أجب]':String.fromCharCode(65+Number(v))+') '+q[1][Number(v)]))})}
+addComp(complete1,'a1_','CHAPTER 1 COMPLETE');addMcq(mcq1,'b1_','CHAPTER 1 MCQ');addComp(complete3,'a3_','CHAPTER 3 COMPLETE');addMcq(mcq3,'b3_','CHAPTER 3 MCQ');addMcq(mid,'m_','OS MID-TERM PDF');document.getElementById('export').value=out.join('\\n');document.getElementById('result').style.display='block';document.getElementById('result').scrollIntoView({behavior:'smooth'})}
+
+function gradeAll(){
+ let score=0,total=0,report=[];
+ function add(title,arr,key,keys){let c=0,n=0;arr.forEach((q,i)=>{if(keys[i]===null||keys[i]===undefined)return;n++;total++;let v=localStorage.getItem(key+i);let ok=v!==null&&Number(v)===keys[i];if(ok){c++;score++}report.push(`<p>${title} ${i+1}: ${ok?'✅':'❌'} — الصحيح: ${String.fromCharCode(65+keys[i])}) ${q[1][keys[i]]}</p>`)});return `${title}: ${c}/${n}`}
+ function tf(){let c=0;tf26.forEach((q,i)=>{total++;let v=localStorage.getItem('tf26_'+i);let ok=v!==null&&(v==='true')===q[1];if(ok){c++;score++}report.push(`<p>2025-2026 T/F ${i+1}: ${ok?'✅':'❌'} — الصحيح ${q[1]?'True':'False'}</p>`)});return `2025-2026 T/F: ${c}/10`}
+ function comp(arr,key,title){let c=0;arr.forEach((q,i)=>{total++;let v=(localStorage.getItem(key+i)||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').trim();let ok=!!v&&q[1].some(a=>v.includes(a.toLowerCase())||a.toLowerCase().includes(v));if(ok){c++;score++}report.push(`<p>${title} ${i+1}: ${ok?'✅ مقبول':'❌ راجع'} — المتوقع: ${q[1][0]}</p>`)});return `${title}: ${c}/${arr.length}`}
+ let sums=[];
+ sums.push(comp(complete1,'a1_','Ch1 Complete'));
+ sums.push(add('Ch1 MCQ',mcq1,'b1_',[3,0,0,1]));
+ sums.push(comp(complete3,'a3_','Ch3 Complete'));
+ sums.push(add('Ch3 MCQ',mcq3,'b3_',[3,1,0,2,2,1,0,1,0,2]));
+ sums.push(tf());
+ sums.push(add('OS Mid-term PDF',mid,'m_',mid.map(q=>q[2]===undefined?null:q[2])));
+ sums.push(add('2025-2026 MCQ',mcq26,'q26_',[1,1,2,1,3,1,0,0,null,2,0]));
+ document.getElementById('score').innerHTML=`<h2>درجتك: ${score} / ${total}</h2><p>${sums.join(' | ')}</p><p>السؤال 19 في امتحان 2025-2026 مستبعد من الدرجة لأن صياغته لا تحدد سبب الـ context switch وبالتالي لا يوجد اختيار وحيد مؤكد.</p>`;
+ document.getElementById('feedback').innerHTML=report.join('');
+ document.getElementById('result').style.display='block';document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+
+function copyExport(){let x=document.getElementById('export');x.select();document.execCommand('copy')}
+function clearAll(){if(confirm('متأكد إنك عايز تمسح كل الإجابات؟')){localStorage.clear();location.reload()}}
+</script></body></html>
